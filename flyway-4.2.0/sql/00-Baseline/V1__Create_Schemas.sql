@@ -1,0 +1,5 @@
+CREATE SCHEMA [util];
+GO
+
+CREATE SCHEMA [user];
+GO
