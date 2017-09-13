@@ -1,18 +1,17 @@
-CREATE TABLE [moment].[Moments] (
+CREATE TABLE [moment].[Base] (
 	[ID] BIGINT NOT NULL IDENTITY(1,1),
 	[SenderID] NVARCHAR(128) NOT NULL,
-	[RecipientsID] BIGINT NOT NULL,
 	[Location] GEOGRAPHY NOT NULL,
 	[MediaID] BIGINT NOT NULL,
 	[Public] BIT NOT NULL,
-	[CreateDate] DATETIME2 NOT NULL DEFAULT GETUTCDATE(),
+	[CreateDate] DATETIME2 NOT NULL DEFAULT GETUTCDATE()	
 );
 
-ALTER TABLE [moment].[Moments] WITH NOCHECK
-ADD CONSTRAINT PK_Moments_CreateDate_ID PRIMARY KEY CLUSTERED ([CreateDate], [ID])
+ALTER TABLE [moment].[Base] WITH NOCHECK
+ADD CONSTRAINT PK_Base_ID PRIMARY KEY CLUSTERED ([ID])
 WITH (FILLFACTOR = 90);
 
-ALTER TABLE [moment].[Moments] WITH CHECK CHECK CONSTRAINT ALL;
+ALTER TABLE [moment].[Base] WITH CHECK CHECK CONSTRAINT ALL;
 GO
 
 ----------------------------------------------------------------------------------------
@@ -33,17 +32,17 @@ GO
 
 ----------------------------------------------------------------------------------------
 
-CREATE TABLE [moment].[Status] (
-	[MomentID] BIGINT NOT NULL IDENTITY(1, 1),
+CREATE TABLE [moment].[Branch] (
 	[RecipientID] NVARCHAR(128) NOT NULL,
+	[NoteID] BIGINT NOT NULL,
 	[Found] BIT NOT NULL,
 	[FoundDate] DATETIME2 NULL,
 	[Shared] BIT NOT NULL
 );
 
-ALTER TABLE [moment].[Status] WITH NOCHECK
-ADD CONSTRAINT PK_Status_RecipientID_MomentID PRIMARY KEY CLUSTERED ([RecipientID], [MomentID])
+ALTER TABLE [moment].[Branch] WITH NOCHECK
+ADD CONSTRAINT PK_Branch_RecipientID_NoteID PRIMARY KEY CLUSTERED ([RecipientID], [NoteID])
 WITH(FILLFACTOR = 90);
 
-ALTER TABLE [moment].[Status] WITH CHECK CHECK CONSTRAINT ALL;
+ALTER TABLE [moment].[Branch] WITH CHECK CHECK CONSTRAINT ALL;
 GO
