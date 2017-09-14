@@ -1,17 +1,17 @@
-CREATE TABLE [moment].[Base] (
+CREATE TABLE [moment].[Moments] (
 	[ID] BIGINT NOT NULL IDENTITY(1,1),
-	[SenderID] NVARCHAR(128) NOT NULL,
+	[SenderID] NVARCHAR(64) NOT NULL,
 	[Location] GEOGRAPHY NOT NULL,
 	[MediaID] BIGINT NOT NULL,
 	[Public] BIT NOT NULL,
 	[CreateDate] DATETIME2 NOT NULL DEFAULT GETUTCDATE()	
 );
 
-ALTER TABLE [moment].[Base] WITH NOCHECK
-ADD CONSTRAINT PK_Base_ID PRIMARY KEY CLUSTERED ([ID])
+ALTER TABLE [moment].[Moments] WITH NOCHECK
+ADD CONSTRAINT PK_Moments_ID PRIMARY KEY CLUSTERED ([ID])
 WITH (FILLFACTOR = 90);
 
-ALTER TABLE [moment].[Base] WITH CHECK CHECK CONSTRAINT ALL;
+ALTER TABLE [moment].[Moments] WITH CHECK CHECK CONSTRAINT ALL;
 GO
 
 ----------------------------------------------------------------------------------------
@@ -32,17 +32,31 @@ GO
 
 ----------------------------------------------------------------------------------------
 
-CREATE TABLE [moment].[Branch] (
-	[RecipientID] NVARCHAR(128) NOT NULL,
-	[NoteID] BIGINT NOT NULL,
+CREATE TABLE [moment].[Leaves] (
+	[ID] BIGINT NOT NULL IDENTITY(1,1), 
+	[RecipientID] NVARCHAR(64) NOT NULL,
+	[MomentID] BIGINT NOT NULL,
 	[Found] BIT NOT NULL,
-	[FoundDate] DATETIME2 NULL,
-	[Shared] BIT NOT NULL
+	[FoundDate] DATETIME2 NULL
 );
 
-ALTER TABLE [moment].[Branch] WITH NOCHECK
-ADD CONSTRAINT PK_Branch_RecipientID_NoteID PRIMARY KEY CLUSTERED ([RecipientID], [NoteID])
+ALTER TABLE [moment].[Leaves] WITH NOCHECK
+ADD CONSTRAINT PK_Leaves_ID PRIMARY KEY CLUSTERED (ID)
 WITH(FILLFACTOR = 90);
 
-ALTER TABLE [moment].[Branch] WITH CHECK CHECK CONSTRAINT ALL;
+ALTER TABLE [moment].[Leaves] WITH CHECK CHECK CONSTRAINT ALL;
+GO
+
+----------------------------------------------------------------------------------------
+
+CREATE TABLE [moment].[Shares] (
+	[LeaveID] BIGINT NOT NULL,
+	[RecipientID] NVARCHAR(64) NOT NULL
+);
+
+ALTER TABLE [moment].[Shares] WITH NOCHECK
+ADD CONSTRAINT PK_Shares_LeaveID_RecipientID PRIMARY KEY CLUSTERED ([LeaveID], [RecipientID])
+WITH(FILLFACTOR = 90);
+
+ALTER TABLE [moment].[Shares] WITH CHECK CHECK CONSTRAINT ALL;
 GO
