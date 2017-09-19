@@ -1,7 +1,8 @@
 CREATE TABLE [moment].[Moments] (
 	[ID] BIGINT NOT NULL IDENTITY(1,1),
 	[SenderID] NVARCHAR(64) NOT NULL,
-	[Location] GEOGRAPHY NOT NULL,
+	[Latitude] NUMERIC(9,6) NOT NULL,
+	[Longitude] NUMERIC(8,6) NOT NULL,
 	[MediaID] BIGINT NOT NULL,
 	[Public] BIT NOT NULL,
 	[CreateDate] DATETIME2 NOT NULL DEFAULT GETUTCDATE()	
@@ -17,9 +18,9 @@ GO
 ----------------------------------------------------------------------------------------
 
 CREATE TABLE [moment].[Media] (
-	[ID] [uniqueidentifier] ROWGUIDCOL NOT NULL UNIQUE DEFAULT NEWSEQUENTIALID() ,
-	[Type] BINARY(1) NOT NULL,
-	[Media] VARBINARY(MAX) FILESTREAM NULL,
+	[ID] BIGINT NOT NULL IDENTITY(1,1),
+	[Type] TINYINT NOT NULL,
+	[MediaDir] NVARCHAR(256) NULL,
 	[Message] NVARCHAR(256) NULL
 );
 
@@ -36,8 +37,9 @@ CREATE TABLE [moment].[Leaves] (
 	[ID] BIGINT NOT NULL IDENTITY(1,1), 
 	[RecipientID] NVARCHAR(64) NOT NULL,
 	[MomentID] BIGINT NOT NULL,
-	[Found] BIT NOT NULL,
-	[FoundDate] DATETIME2 NULL
+	[Found] BIT NOT NULL DEFAULT 0,
+	[FindDate] DATETIME2 NULL,
+	[Shared] BIT NOT NULL DEFAULT 0
 );
 
 ALTER TABLE [moment].[Leaves] WITH NOCHECK
