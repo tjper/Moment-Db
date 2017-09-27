@@ -20,7 +20,7 @@ GO
 CREATE TABLE [moment].[Media] (
 	[MomentID] BIGINT NOT NULL,
 	[Type] TINYINT NOT NULL,
-	[MediaDir] NVARCHAR(256) NULL,
+	[Dir] NVARCHAR(256) NULL,
 	[Message] NVARCHAR(256) NULL
 );
 
